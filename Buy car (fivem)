@@ -1,0 +1,28 @@
+-- Client-side Script
+RegisterNetEvent('buyCar')
+AddEventHandler('buyCar', function(vehicleName, vehiclePrice)
+    local playerPed = PlayerPedId()
+    local playerCoords = GetEntityCoords(playerPed)
+    
+    TriggerServerEvent('purchaseVehicle', vehicleName, vehiclePrice, playerCoords)
+end)
+
+-- Server-side Script
+RegisterServerEvent('purchaseVehicle')
+AddEventHandler('purchaseVehicle', function(vehicleName, vehiclePrice, playerCoords)
+    local player = source
+    local playerMoney = 0 -- Implement your money system here
+    
+    if playerMoney >= vehiclePrice then
+        TriggerClientEvent('spawnPurchasedVehicle', player, vehicleName, playerCoords)
+        -- Deduct money from player's account
+    else
+        -- Inform player they don't have enough money
+    end
+end)
+
+-- Spawn Purchased Vehicle
+RegisterNetEvent('spawnPurchasedVehicle')
+AddEventHandler('spawnPurchasedVehicle', function(vehicleName, playerCoords)
+    -- Spawn the purchased vehicle at playerCoords
+end)
